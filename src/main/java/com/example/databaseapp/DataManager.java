@@ -107,31 +107,61 @@ public class DataManager {
 
         String query = "";
 
-        if(spinnerCategory.equals("Male")){
-            query = "SELECT * FROM "
-                    + TABLE_N_AND_L
-                    + " WHERE "
-                    + TABLE_ROW_GENDER
-                    + " = '"
-                    + "Male"
-                    + "';";
-        } else if(spinnerCategory.equals("Female")){
-            query = "SELECT * FROM "
-                    + TABLE_N_AND_L
-                    + " WHERE "
-                    + TABLE_ROW_GENDER
-                    + " = '"
-                    + "Female"
-                    + "';";
-        } else if(spinnerCategory.equals("Adult")){
-            query = "SELECT * FROM "
-                    + TABLE_N_AND_L
-                    + " WHERE "
-                    + TABLE_ROW_AGE
-                    + " >= 18;";
-        } else if(spinnerCategory.equals("All results")){
-            query = "SELECT * from " + TABLE_N_AND_L;
+        if(MainActivity.oneRecordCheckBox.isChecked()){
+            if(spinnerCategory.equals("Male")){
+                query = "SELECT * FROM "
+                        + TABLE_N_AND_L
+                        + " WHERE "
+                        + TABLE_ROW_GENDER
+                        + " = '"
+                        + "Male"
+                        + "' LIMIT 1;";
+            } else if(spinnerCategory.equals("Female")){
+                query = "SELECT * FROM "
+                        + TABLE_N_AND_L
+                        + " WHERE "
+                        + TABLE_ROW_GENDER
+                        + " = '"
+                        + "Female"
+                        + "' LIMIT 1;";
+            } else if(spinnerCategory.equals("Adult")){
+                query = "SELECT * FROM "
+                        + TABLE_N_AND_L
+                        + " WHERE "
+                        + TABLE_ROW_AGE
+                        + " >= 18 LIMIT 1;";
+            } else if(spinnerCategory.equals("All results")){
+                query = "SELECT * from " + TABLE_N_AND_L + " LIMIT 1;";
+            }
+        }else{
+            if(spinnerCategory.equals("Male")){
+                query = "SELECT * FROM "
+                        + TABLE_N_AND_L
+                        + " WHERE "
+                        + TABLE_ROW_GENDER
+                        + " = '"
+                        + "Male"
+                        + "';";
+            } else if(spinnerCategory.equals("Female")){
+                query = "SELECT * FROM "
+                        + TABLE_N_AND_L
+                        + " WHERE "
+                        + TABLE_ROW_GENDER
+                        + " = '"
+                        + "Female"
+                        + "';";
+            } else if(spinnerCategory.equals("Adult")){
+                query = "SELECT * FROM "
+                        + TABLE_N_AND_L
+                        + " WHERE "
+                        + TABLE_ROW_AGE
+                        + " >= 18;";
+            } else if(spinnerCategory.equals("All results")){
+                query = "SELECT * from " + TABLE_N_AND_L;
+            }
         }
+
+
 
         Cursor c = db.rawQuery(query, null);
         return c;

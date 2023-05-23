@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.util.Log;
 import android.database.Cursor;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static Spinner categorySpinner;
     public Spinner genderSpinner;
     public TableLayout dataTable;
+    public static CheckBox oneRecordCheckBox;
     DataManager dm;
 
     @SuppressLint("MissingInflatedId")
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataTable = (TableLayout)findViewById(R.id.dataTable);
         categorySpinner = (Spinner)findViewById(R.id.categorySpinner);
         genderSpinner = (Spinner)findViewById(R.id.genderSpinner);
+        oneRecordCheckBox = (CheckBox) findViewById(R.id.oneRecordCheckBox);
 
         dm = new DataManager(this);
 
