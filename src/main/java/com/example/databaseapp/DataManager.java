@@ -1,6 +1,6 @@
 package com.example.databaseapp;
 
-import android.content.Context;
+import  android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -15,7 +15,7 @@ public class DataManager {
     public static final String TABLE_ROW_AGE = "age";
     public static final String TABLE_ROW_GENDER = "gender";
     public static final String DB_NAME = "address_book_db";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
     private static final String TABLE_N_AND_L = "names_and_lastnames";
 
 
@@ -35,7 +35,7 @@ public class DataManager {
                     + TABLE_ROW_LASTNAME
                     + " TEXT NOT NULL, "
                     + TABLE_ROW_AGE
-                    + " TEXT NOT NULL, "
+                    + " INTEGER NOT NULL, "
                     + TABLE_ROW_GENDER
                     + " TEXT NOT NULL, "
                     + TABLE_ROW_PESEL

@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,13 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         insertBtn.setOnClickListener(this);
         searchBtn.setOnClickListener(this);
 
-        // Tworzenie adaptera dla spinnera z czterema opcjami
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                 new String[]{"All results", "Male", "Female", "Adult"});
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
-        // Tworzenie adaptera dla spinnera z dwoma opcjami
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                 new String[]{"Male", "Female"});
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,9 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void showData(Cursor cursor){
         if (cursor.moveToFirst()) {
-            // Iteruj przez wszystkie wiersze kursora
             do {
-                // Pobierz wartości kolumn dla bieżącego wiersza
                 @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(DataManager.TABLE_ROW_NAME));
                 @SuppressLint("Range") String lastname = cursor.getString(cursor.getColumnIndex(DataManager.TABLE_ROW_LASTNAME));
                 @SuppressLint("Range") String age = cursor.getString(cursor.getColumnIndex(DataManager.TABLE_ROW_AGE));
@@ -100,13 +98,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (cursor.moveToFirst()) {
-            // Tworzenie wiersza nagłówka
             TableRow headerRow = new TableRow(this);
             headerRow.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
 
-            // Dodawanie nagłówków kolumn
             String[] columnNames = cursor.getColumnNames();
             for (int i = 0; i < columnNames.length; i++) {
                 TextView headerTextView = new TextView(this);
@@ -114,31 +110,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 TableRow.LayoutParams layoutParams;
                 if (i == 0) {
-                    // Ustawienie layout_weight dla komórki ID na 2
                     layoutParams = new TableRow.LayoutParams(
                             0,
                             TableRow.LayoutParams.WRAP_CONTENT,
                             0.3f);
                 }else if( i == 1) {
-                    // Ustawienie layout_weight dla pozostałych komórek na 1
                     layoutParams = new TableRow.LayoutParams(
                             0,
                             TableRow.LayoutParams.WRAP_CONTENT,
                             0.8f);
                 }else if( i == 3) {
-                    // Ustawienie layout_weight dla pozostałych komórek na 1
                     layoutParams = new TableRow.LayoutParams(
                             0,
                             TableRow.LayoutParams.WRAP_CONTENT,
                             0.4f);
                 } else if( i == 4) {
-                    // Ustawienie layout_weight dla pozostałych komórek na 1
                     layoutParams = new TableRow.LayoutParams(
                             0,
                             TableRow.LayoutParams.WRAP_CONTENT,
                             0.7f);
                 }else {
-                    // Ustawienie layout_weight dla pozostałych komórek na 1
                     layoutParams = new TableRow.LayoutParams(
                             0,
                             TableRow.LayoutParams.WRAP_CONTENT,
@@ -148,17 +139,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 headerRow.addView(headerTextView);
             }
-            // Dodawanie wiersza nagłówka do tabeli
+
             dataTable.addView(headerRow);
 
-            // Tworzenie wierszy z danymi rekordów
             do {
                 TableRow dataRow = new TableRow(this);
                 dataRow.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT));
 
-                // Dodawanie komórek z danymi dla poszczególnych kolumn
                 for (int i = 0; i < columnNames.length; i++) {
                     TextView dataTextView = new TextView(this);
                     @SuppressLint("Range") String value = cursor.getString(cursor.getColumnIndex(columnNames[i]));
@@ -166,31 +155,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     TableRow.LayoutParams layoutParams;
                     if (i == 0) {
-                        // Ustawienie layout_weight dla komórki ID na 2
                         layoutParams = new TableRow.LayoutParams(
                                 0,
                                 TableRow.LayoutParams.WRAP_CONTENT,
                                 0.3f);
                     } else if( i == 1) {
-                        // Ustawienie layout_weight dla pozostałych komórek na 1
                         layoutParams = new TableRow.LayoutParams(
                                 0,
                                 TableRow.LayoutParams.WRAP_CONTENT,
                                 0.8f);
                     } else if( i == 3) {
-                        // Ustawienie layout_weight dla pozostałych komórek na 1
                         layoutParams = new TableRow.LayoutParams(
                                 0,
                                 TableRow.LayoutParams.WRAP_CONTENT,
                                 0.4f);
                     } else if( i == 4) {
-                        // Ustawienie layout_weight dla pozostałych komórek na 1
                         layoutParams = new TableRow.LayoutParams(
                                 0,
                                 TableRow.LayoutParams.WRAP_CONTENT,
                                 0.7f);
                     } else {
-                        // Ustawienie layout_weight dla pozostałych komórek na 1
                         layoutParams = new TableRow.LayoutParams(
                                 0,
                                 TableRow.LayoutParams.WRAP_CONTENT,
@@ -200,11 +184,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     dataRow.addView(dataTextView);
                 }
-                // Dodawanie wiersza z danymi do tabeli
+
                 dataTable.addView(dataRow);
             } while (cursor.moveToNext());
         }
-        // Zamknij kursor po zakończeniu jego użytkowania
+
         cursor.close();
     }
 
@@ -223,12 +207,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         BigInteger randomPesel = peselGenerator();
 
-        int index = rand.nextInt(20);
+        int index = rand.nextInt(30);
 
-        if (nameEditTxt.getText().toString().isEmpty()) {
+        if (nameEditTxt.getText().toString().isEmpty() || checkDigitInString()) {
             nameEditTxt.setText(randomNamesArr[index]);
         }
-        if (lastNameEditTxt.getText().toString().isEmpty()) {
+        if (lastNameEditTxt.getText().toString().isEmpty() || checkDigitInString()) {
             lastNameEditTxt.setText(randomLastNamesArr[index]);
         }
         if (ageEditTxt.getText().toString().isEmpty()) {
@@ -239,6 +223,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         dm.insert(nameEditTxt.getText().toString(), lastNameEditTxt.getText().toString(), ageEditTxt.getText().toString(), genderSpinner.getSelectedItem().toString(), peselEditTxt.getText().toString());
+    }
+
+    public boolean checkDigitInString(){
+        Pattern pattern = Pattern.compile(".*\\d.*");
+
+        Matcher matcherName = pattern.matcher(nameEditTxt.getText().toString());
+        Matcher matcherLastName = pattern.matcher(lastNameEditTxt.getText().toString());
+
+        boolean result = false;
+
+        if (matcherName.matches()) {
+            result = true;
+        } else if (matcherLastName.matches()) {
+            result = true;
+        }
+
+        return result;
     }
 
     public boolean checkBlanks (){
@@ -290,24 +291,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static BigInteger peselGenerator() {
         Random random = new Random();
 
-        // Pierwsza cyfra (rok urodzenia)
         BigInteger pesel = BigInteger.valueOf(random.nextInt(9) + 1)
                 .multiply(BigInteger.TEN.pow(10));
 
-        // Druga i trzecia cyfra (miesiąc urodzenia)
         int month = random.nextInt(12) + 1;
         pesel = pesel.add(BigInteger.valueOf(month).multiply(BigInteger.TEN.pow(8)));
 
-        // Czwarta i piąta cyfra (dzień urodzenia)
         int day = random.nextInt(31) + 1;
         pesel = pesel.add(BigInteger.valueOf(day).multiply(BigInteger.TEN.pow(6)));
 
-        // Cyfry od szóstej do dziesiątej (losowe cyfry)
         for (int i = 0; i < 5; i++) {
             pesel = pesel.add(BigInteger.valueOf(random.nextInt(10)).multiply(BigInteger.TEN.pow(4 - i)));
         }
 
-        // Ostatnia cyfra (cyfra kontrolna)
         int checksum = calculatePeselChecksum(pesel);
         pesel = pesel.add(BigInteger.valueOf(checksum));
 
